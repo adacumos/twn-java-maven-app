@@ -1,13 +1,12 @@
 pipeline {   
     agent any
+    tools {
+        maven 'maven-3.9'
+    }
+    environment {
+        DOCKER_IMAGE = "adacumos/twn-bootcamp-repo:java-maven-app-1.1"
+    }
     stages {
-        tools {
-            maven 'maven-3.9'
-        }
-        environment {
-            DOCKER_IMAGE = "adacumos/twn-bootcamp-repo:java-maven-app-1.1"
-        }
-       
         stage("build jar") {
             steps {
                 script {
