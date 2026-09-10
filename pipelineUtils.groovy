@@ -17,3 +17,5 @@ def buildDockerImage() {
 def deploy() {
     echo "Deploying the application...."
 }
+
+return this
