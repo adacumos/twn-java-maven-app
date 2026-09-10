@@ -7,11 +7,17 @@ pipeline {
         DOCKER_IMAGE = "adacumos/twn-bootcamp-repo:java-maven-app-1.1"
     }
     stages {
+        stage('initialize') {
+            steps {
+                script {
+                    def pipelineUtils = load 'pipelineUtils.groovy'
+                }
+            }
+        }
         stage("build jar") {
             steps {
                 script {
-                    echo "Building the application...."
-                    sh 'mvn clean package'
+                    pipelineUtils.buildJar()
                 }
             }
         }
@@ -19,12 +25,7 @@ pipeline {
         stage("build docker image") {
             steps {
                 script {
-                    echo "Building the docker image...."
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                        sh 'echo ${PASS} | docker login -u ${USER} --password-stdin'
-                        sh 'docker build -t ${DOCKER_IMAGE} .'
-                        sh 'docker push ${DOCKER_IMAGE}'
-                    }
+                    pipelineUtils.buildDockerImage()
                 }
             }
         }
@@ -32,7 +33,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    echo "Deploying the application...."
+                    pipelineUtils.deploy()
                 }
             }
         }               
