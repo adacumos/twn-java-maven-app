@@ -1,3 +1,5 @@
+def pipelineUtils 
+
 pipeline {   
     agent any
     tools {
@@ -10,7 +12,7 @@ pipeline {
         stage('initialize') {
             steps {
                 script {
-                    def pipelineUtils = load 'pipelineUtils.groovy'
+                    pipelineUtils = load 'pipelineUtils.groovy'
                 }
             }
         }
