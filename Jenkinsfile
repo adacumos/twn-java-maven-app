@@ -1,25 +1,17 @@
-def pipelineUtils 
+#!/user/bin/env groovy
+
+@Library('jenkins-shared-library')_
 
 pipeline {   
     agent any
     tools {
         maven 'maven-3.9'
     }
-    environment {
-        DOCKER_IMAGE = "adacumos/twn-bootcamp-repo:java-maven-app-1.1"
-    }
     stages {
-        stage('initialize') {
-            steps {
-                script {
-                    pipelineUtils = load 'pipelineUtils.groovy'
-                }
-            }
-        }
         stage("build jar") {
             steps {
                 script {
-                    pipelineUtils.buildJar()
+                    buildJar()
                 }
             }
         }
@@ -27,7 +19,7 @@ pipeline {
         stage("build docker image") {
             steps {
                 script {
-                    pipelineUtils.buildDockerImage()
+                    builImage()
                 }
             }
         }
@@ -35,7 +27,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    pipelineUtils.deploy()
+                    deployApp()
                 }
             }
         }               
